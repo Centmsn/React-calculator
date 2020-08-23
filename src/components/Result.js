@@ -1,13 +1,11 @@
 import React from "react";
 
-const Result = () => {
+const Result = ({ screenValue }) => {
   return (
     <>
       <div className="calculator__screen">
-        <div className="calculator__screen-history">
-          <span>10*10-150-4214</span>
-        </div>
-        <span>dasdadsa</span>
+        <div className="calculator__screen-history">10*10-150-4214</div>
+        {screenValue}
       </div>
     </>
   );

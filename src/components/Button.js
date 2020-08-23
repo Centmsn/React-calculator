@@ -1,14 +1,15 @@
 import React from "react";
 
-const Button = (props) => {
+const Button = ({ keyValue, classValue, click }) => {
   return (
     <button
       className={
         //   add modifier to class list
-        props.class ? `calculator__button ${props.class}` : "calculator__button"
+        classValue ? `calculator__button ${classValue}` : "calculator__button"
       }
+      onClick={click}
     >
-      {props.keyValue}
+      {keyValue}
     </button>
   );
 };

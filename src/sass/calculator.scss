@@ -1,3 +1,5 @@
+@import "./variables";
+
 .calculator {
   width: 25vw;
   height: 60vh;
@@ -16,10 +18,13 @@
     border-top-right-radius: 14px;
     border-bottom: 2px solid black;
     padding: 5px 10px;
+    line-height: 100%;
   }
   &__screen-history {
     max-height: 30px;
     font-size: 0.6rem;
+    color: rgb(107, 107, 107);
+    border-bottom: 1px solid black;
   }
   &__keyboard {
     display: grid;
@@ -28,19 +33,30 @@
     border-bottom-right-radius: 14px;
   }
   &__button {
-    background-color: transparent;
+    background-color: $num-color;
     font-family: "Orbitron", sans-serif;
     font-size: 1.5rem;
-    border: none;
-    &:hover {
-      background-color: turquoise;
-    }
+    border: 1px solid black;
+    cursor: pointer;
     &:focus {
       outline: none;
+    }
+    &:hover {
+      background-color: darken($num-color, 15%);
     }
   }
   &__button--equals {
     grid-area: 3 / 4 / 5 / 5;
+    background-color: $eq-color;
+    &:hover {
+      background-color: darken($eq-color, 15%);
+    }
+  }
+  &__button--sign {
+    background-color: $sign-color;
+    &:hover {
+      background-color: darken($sign-color, 15%);
+    }
   }
   &__button--round-left-border {
     border-bottom-left-radius: 14px;
