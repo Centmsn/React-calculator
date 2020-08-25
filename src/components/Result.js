@@ -1,10 +1,10 @@
 import React from "react";
 
-const Result = ({ screenValue }) => {
+const Result = ({ screenValue, screenHistory }) => {
   return (
     <>
       <div className="calculator__screen">
-        <div className="calculator__screen-history">10*10-150-4214</div>
+        <div className="calculator__screen-history">{screenHistory}</div>
         {screenValue}
       </div>
     </>

@@ -22,7 +22,7 @@ const Keypad = ({ handleButtonClick }) => {
     { value: "C", class: "calculator__button--sign" },
     { value: "CE", class: "calculator__button--sign" },
     {
-      value: "<-",
+      value: "back",
       class: "calculator__button--round-right-border calculator__button--sign",
     },
   ];
