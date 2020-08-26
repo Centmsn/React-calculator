@@ -4,15 +4,17 @@ class Logic {
   }
 
   static setScreenHistory(value, screenHistory, screenValue) {
-    return `${screenHistory}${screenValue}${value}`;
+    if (arguments.length === 3) {
+      // if 3 args then set history
+      return `${screenHistory}${screenValue}${value}`;
+    } else if (arguments.length === 2) {
+      // if 2 args then replace last sign in history
+      return `${screenHistory.slice(0, -1)}${value}`;
+    }
   }
 
   static setScreenValue(value, screenValue) {
     return `${screenValue}${value}`;
-  }
-
-  static replaceLastSign(value, screenHistory) {
-    return `${screenHistory.slice(0, -1)}${value}`;
   }
 
   static validateSign(value, screenValue, screenHistory) {
@@ -31,12 +33,20 @@ class Logic {
       }
       if (screenValue.length === 0) return; //check if anything is on screen
       //last sign in history cannot be sign and screen cannot be empty
-      console.log("abc");
+
+      // if last sign is = then reset history
+      if (lastSign === "=" && value !== "=") {
+        return "replaceSign";
+      }
+      if (lastSign === "=") {
+        return "reset";
+      }
       return "addSign";
     }
 
     // if value is a num
     if (value.match(numbers)) {
+      // if (screenValue.length > 16) return;
       return "addNum";
     }
   }

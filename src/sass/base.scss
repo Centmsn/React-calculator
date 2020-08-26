@@ -8,3 +8,14 @@ html {
   font-family: "Orbitron", sans-serif;
   font-size: 1.25rem;
 }
+
+body {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(
+    189deg,
+    rgb(131, 140, 148) 0%,
+    rgb(130, 134, 136) 100%
+  );
+}

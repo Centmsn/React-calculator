@@ -7,11 +7,14 @@ import "../css/calculator.css";
 const Calculator = () => {
   const [screenValue, setScreenValue] = useState("");
   const [screenHistory, setScreenHistory] = useState("");
-
-  // const [operator, setOperator] = useState("");
+  // flag for replacing screen value instead of adding value
+  const [resetScreen, setResetScreen] = useState(false);
+  // flag for replacing screen history after using = and then number
+  const [resetHistory, setResetHistory] = useState(false);
 
   const getKeyValue = (e) => {
     const value = e.target.textContent.toLowerCase();
+    console.log(resetScreen);
 
     // clear all
     if (value === "c") {
@@ -38,13 +41,23 @@ const Calculator = () => {
       setScreenHistory((prevState) =>
         Logic.setScreenHistory(value, prevState, screenValue)
       );
+      setResetScreen(true);
+      setResetHistory(true);
       return;
     }
 
     // check if can be used
     if (Logic.validateSign(value, screenValue, screenHistory) === "addNum") {
       // if its number
-      setScreenValue((prevState) => Logic.setScreenValue(value, prevState));
+      resetScreen
+        ? // if reset flag is active
+          setScreenValue(value)
+        : setScreenValue((prevState) => Logic.setScreenValue(value, prevState));
+
+      resetHistory && setScreenHistory("");
+      // reset flags
+      setResetHistory(false);
+      setResetScreen(false);
     } else if (
       Logic.validateSign(value, screenValue, screenHistory) === "addSign"
     ) {
@@ -52,62 +65,19 @@ const Calculator = () => {
       setScreenHistory((prevState) =>
         Logic.setScreenHistory(value, prevState, screenValue)
       );
+      setScreenValue(Logic.countResult(screenHistory, screenValue));
+      // after setting history screen value will be cleared
+      setResetScreen(true);
       // if last sign in history is on operator replace it
     } else if (
       Logic.validateSign(value, screenValue, screenHistory) === "replaceSign"
     ) {
-      setScreenHistory((prevState) => Logic.replaceLastSign(value, prevState));
+      setScreenHistory((prevState) => Logic.setScreenHistory(value, prevState));
+
+      // do not reset history if = was replaced
+      setResetHistory(false);
     }
   };
-
-  // const calculateResult = (value, screenValue, screenHistory) => {
-  //   if ((value, screenValue, screenHistory)) {
-  //     if (value === "=") {
-  //       setShouldEvaluate(false);
-  //     } else {
-  //       setShouldEvaluate((prevState) => !prevState);
-  //     }
-  //     return eval(`${screenHistory}${screenValue}`).toString();
-  //   } else {
-  //     return "";
-  //   }
-  // };
-
-  // const validateSign = (value) => {
-  //   const lastSign = screenHistory.charAt(screenHistory.length - 1);
-  //   const signs = /[+\-*/.=]/;
-  //   const numbers = /[0-9]/;
-  //   // if value is a symbol or number
-  //   if (value.match(signs) || value.match(numbers)) {
-  //     if (value.match(numbers) && shouldEvaluate) {
-  //       if (equalsFlag) {
-  //         setScreenHistory("");
-  //         setScreenValue(value);
-  //         setEquals(false);
-  //       }
-  //       setShouldEvaluate((prevState) => !prevState);
-  //       setScreenValue(value);
-  //       return;
-  //     }
-  //     // if value is a symbol
-  //     if (value.match(signs)) {
-  //       if (equalsFlag) {
-  //         setScreenHistory("");
-  //         setScreenValue(value);
-  //         setEquals(false);
-  //       }
-  //       if (screenValue.length === 0) return;
-  //       if (value === "=") {
-  //         setScreenHistory((prevState) => `${prevState}${screenValue}`);
-  //         setEquals(true);
-  //       } else {
-  //         setScreenHistory((prevState) => `${prevState}${screenValue}${value}`);
-  //       }
-  //       setScreenValue(calculateResult(value, screenValue, screenHistory));
-  //       return;
-  //     }
-  //     setScreenValue((prevState) => `${prevState}${value}`);
-  //   }
 
   return (
     <div className="calculator">

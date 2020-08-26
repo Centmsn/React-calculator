@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Calculator from "./components/Calculator";
-import "./css/base.min.css";
+import "./css/base.css";
 
 ReactDOM.render(
   <React.StrictMode>
