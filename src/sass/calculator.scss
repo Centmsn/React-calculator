@@ -21,6 +21,9 @@
     line-height: 100%;
     background-color: white;
     box-shadow: inset 0 0 5px black;
+    &--disabled {
+      background-color: $disabled-color;
+    }
   }
   &__screen-history {
     min-height: 20px;
@@ -28,6 +31,7 @@
     font-size: 0.6rem;
     color: rgb(107, 107, 107);
     border-bottom: 1px solid black;
+    // overflow: scroll;
   }
   &__keyboard {
     display: grid;
@@ -50,6 +54,9 @@
     &:hover {
       background-color: darken($num-color, 15%);
       box-shadow: inset 0 0 9px black;
+    }
+    &:disabled {
+      color: $disabled-color;
     }
   }
   &__button--equals {

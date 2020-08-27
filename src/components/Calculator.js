@@ -14,12 +14,12 @@ const Calculator = () => {
 
   const getKeyValue = (e) => {
     const value = e.target.textContent.toLowerCase();
-    console.log(resetScreen);
 
     // clear all
     if (value === "c") {
       setScreenValue("");
       setScreenHistory("");
+      Logic.setResult("reset");
       return;
     }
 
@@ -37,7 +37,10 @@ const Calculator = () => {
 
     // show result
     if (value === "=") {
-      setScreenValue(Logic.countResult(screenHistory, screenValue));
+      // if (screenValue.length === 0) return;
+      if (Logic.validateSign(value, screenValue, screenHistory) === "notAdd")
+        return;
+      setScreenValue(Logic.countResult(screenValue, screenHistory));
       setScreenHistory((prevState) =>
         Logic.setScreenHistory(value, prevState, screenValue)
       );
@@ -49,12 +52,20 @@ const Calculator = () => {
     // check if can be used
     if (Logic.validateSign(value, screenValue, screenHistory) === "addNum") {
       // if its number
+
+      if (Logic.getResult() === "Do not divide by 0") {
+        setResetScreen(true);
+        setScreenHistory("");
+        Logic.setResult("reset");
+      }
+
       resetScreen
         ? // if reset flag is active
           setScreenValue(value)
         : setScreenValue((prevState) => Logic.setScreenValue(value, prevState));
 
       resetHistory && setScreenHistory("");
+      resetHistory && Logic.setResult("reset");
       // reset flags
       setResetHistory(false);
       setResetScreen(false);
@@ -62,10 +73,11 @@ const Calculator = () => {
       Logic.validateSign(value, screenValue, screenHistory) === "addSign"
     ) {
       // if its sign
+
       setScreenHistory((prevState) =>
         Logic.setScreenHistory(value, prevState, screenValue)
       );
-      setScreenValue(Logic.countResult(screenHistory, screenValue));
+      setScreenValue(Logic.countResult(screenValue, screenHistory));
       // after setting history screen value will be cleared
       setResetScreen(true);
       // if last sign in history is on operator replace it
