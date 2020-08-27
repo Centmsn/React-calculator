@@ -50,10 +50,16 @@ const Calculator = () => {
     }
 
     // check if can be used
-    if (Logic.validateSign(value, screenValue, screenHistory) === "addNum") {
+    if (
+      Logic.validateSign(value, screenValue, screenHistory, resetScreen) ===
+      "addNum"
+    ) {
       // if its number
 
-      if (Logic.getResult() === "Do not divide by 0") {
+      if (
+        Logic.getResult() === "Do not divide by 0" ||
+        Logic.getResult() === "Unknown result"
+      ) {
         setResetScreen(true);
         setScreenHistory("");
         Logic.setResult("reset");

@@ -27,9 +27,14 @@ class CalcLogic {
     return this._result;
   }
 
-  setResult(option, value) {
+  setResult(option, value = "") {
+    console.log(value);
     if (value === Infinity) {
       this._result = "Do not divide by 0";
+      return;
+    }
+    if (value.toString() === "NaN") {
+      this._result = "Unknown result";
       return;
     }
     if (option === "reset") {
@@ -60,7 +65,7 @@ class CalcLogic {
     return `${screenValue}${value}`;
   }
 
-  validateSign(value, screenValue, screenHistory) {
+  validateSign(value, screenValue, screenHistory, flag = false) {
     const signs = /[+\-*/=]/;
     const numbers = /[0-9]/;
     let lastSign = "";
@@ -92,7 +97,7 @@ class CalcLogic {
 
     // if value is a num
     if (value.match(numbers)) {
-      // if (screenValue.length > 16) return;
+      if (screenValue.length > 14 && flag === false) return;
       return "addNum";
     }
   }

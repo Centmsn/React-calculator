@@ -6,7 +6,8 @@ const Result = ({ screenValue, screenHistory }) => {
     <>
       <div
         className={
-          Logic.getResult() === "Do not divide by 0"
+          Logic.getResult() === "Do not divide by 0" ||
+          Logic.getResult() === "Unknown result"
             ? "calculator__screen calculator__screen--disabled"
             : "calculator__screen"
         }

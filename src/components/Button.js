@@ -10,7 +10,8 @@ const Button = ({ keyValue, classValue, name, click }) => {
       }
       onClick={click}
       disabled={
-        Logic.getResult() === "Do not divide by 0" && name === "actionBtn"
+        (Logic.getResult() === "Do not divide by 0" && name === "actionBtn") ||
+        (Logic.getResult() === "Unknown result" && name === "actionBtn")
           ? true
           : false
       }
