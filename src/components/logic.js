@@ -1,6 +1,8 @@
 class CalcLogic {
   constructor() {
     this._result = "";
+    this.forbiddenCombination = /^0{1,}/;
+    this.numbers = /[0-9]/;
   }
   countResult(screenValue, screenHistory) {
     if (screenHistory.length > 0 && this._result.length === 0) {
@@ -28,7 +30,6 @@ class CalcLogic {
   }
 
   setResult(option, value = "") {
-    console.log(value);
     if (value === Infinity) {
       this._result = "Do not divide by 0";
       return;
@@ -49,15 +50,14 @@ class CalcLogic {
   setScreenHistory(value, screenHistory, screenValue) {
     if (arguments.length === 3) {
       let trimmedValue = "";
-      // if last sign is a dot - remove it
       screenValue.endsWith(".")
         ? (trimmedValue = screenValue.slice(0, -1))
         : (trimmedValue = screenValue);
-      // if 3 args then set history
       return `${screenHistory}${trimmedValue}${value}`;
     } else if (arguments.length === 2) {
-      // if 2 args then replace last sign in history
       return `${screenHistory.slice(0, -1)}${value}`;
+    } else {
+      throw new Error("incorrect number of arguments - use 2 or 3");
     }
   }
 
@@ -65,39 +65,48 @@ class CalcLogic {
     return `${screenValue}${value}`;
   }
 
-  validateSign(value, screenValue, screenHistory, flag = false) {
+  validateSign(value, screenValue, screenHistory, resetFlag = false) {
     const signs = /[+\-*/=]/;
-    const numbers = /[0-9]/;
     let lastSign = "";
 
+    // if history exist
     if (screenHistory.length > 0) {
       lastSign = screenHistory[screenHistory.length - 1];
     }
-    if (value === "." && screenValue.indexOf(".") === -1) return "addNum";
+    // dot validation
+    if (
+      value === "." &&
+      screenValue.indexOf(".") < 0 &&
+      screenValue.length > 0
+    ) {
+      if (resetFlag) return;
+      return "addNum";
+    }
 
     // if value is a sign
     if (value.match(signs)) {
-      if (screenValue.length === 0) return "notAdd";
-      if (value === "=" && lastSign === "=") return "notAdd";
-      if (lastSign.match(signs) && screenValue.length === 0) {
-        return "replaceSign";
+      if (value === "=" && lastSign === "=") {
+        return "notAdd";
       }
-      //check if anything is on screen
-      //last sign in history cannot be sign and screen cannot be empty
 
-      // if last sign is = then reset history
-      if (lastSign === "=" && value !== "=") {
+      if (lastSign.match(signs) && screenValue.length === 0)
         return "replaceSign";
-      }
-      if (lastSign === "=") {
-        return "reset";
-      }
+      if (screenValue.length === 0) return "notAdd";
+      if (lastSign === "=" && value !== "=") return "replaceSign";
+      if (lastSign === "=") return "reset";
+
       return "addSign";
     }
 
     // if value is a num
-    if (value.match(numbers)) {
-      if (screenValue.length > 14 && flag === false) return;
+    if (value.match(this.numbers)) {
+      if (screenValue.length > 14 && resetFlag === false) return;
+      if (
+        screenValue.match(this.forbiddenCombination) &&
+        value === "0" &&
+        screenValue.length <= 1
+      )
+        return;
       return "addNum";
     }
   }

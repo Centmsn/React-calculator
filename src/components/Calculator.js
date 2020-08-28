@@ -22,22 +22,20 @@ const Calculator = () => {
       Logic.setResult("reset");
       return;
     }
-
     // clear last
-    if (value === "ce") {
+    else if (value === "ce") {
       setScreenValue("");
       return;
     }
 
     // clear last sign
-    if (value === "back") {
+    else if (value === "back") {
       setScreenValue((prevState) => prevState.slice(0, -1));
       return;
     }
 
     // show result
     if (value === "=") {
-      // if (screenValue.length === 0) return;
       if (Logic.validateSign(value, screenValue, screenHistory) === "notAdd")
         return;
       setScreenValue(Logic.countResult(screenValue, screenHistory));
@@ -49,13 +47,10 @@ const Calculator = () => {
       return;
     }
 
-    // check if can be used
     if (
       Logic.validateSign(value, screenValue, screenHistory, resetScreen) ===
       "addNum"
     ) {
-      // if its number
-
       if (
         Logic.getResult() === "Do not divide by 0" ||
         Logic.getResult() === "Unknown result"
@@ -66,20 +61,19 @@ const Calculator = () => {
       }
 
       resetScreen
-        ? // if reset flag is active
-          setScreenValue(value)
+        ? setScreenValue(value)
         : setScreenValue((prevState) => Logic.setScreenValue(value, prevState));
-
       resetHistory && setScreenHistory("");
       resetHistory && Logic.setResult("reset");
-      // reset flags
+
       setResetHistory(false);
       setResetScreen(false);
     } else if (
-      Logic.validateSign(value, screenValue, screenHistory) === "addSign"
+      Logic.validateSign(value, screenValue, screenHistory, resetScreen) ===
+      "addSign"
     ) {
       // if its sign
-
+      if (resetScreen) return;
       setScreenHistory((prevState) =>
         Logic.setScreenHistory(value, prevState, screenValue)
       );
