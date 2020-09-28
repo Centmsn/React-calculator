@@ -2,7 +2,8 @@ class CalcLogic {
   constructor() {
     this._result = "";
     this.forbiddenCombination = /^0{1,}/;
-    this.numbers = /[0-9]/;
+    this.numbers = /\d/;
+    this.signs = /[+\-*/=]/;
   }
   countResult(screenValue, screenHistory) {
     if (screenHistory.length > 0 && this._result.length === 0) {
@@ -66,10 +67,9 @@ class CalcLogic {
   }
 
   validateSign(value, screenValue, screenHistory, resetFlag = false) {
-    const signs = /[+\-*/=]/;
     let lastSign = "";
 
-    // if history exist
+    // check if history exists
     if (screenHistory.length > 0) {
       lastSign = screenHistory[screenHistory.length - 1];
     }
@@ -84,12 +84,12 @@ class CalcLogic {
     }
 
     // if value is a sign
-    if (value.match(signs)) {
+    if (value.match(this.signs)) {
       if (value === "=" && lastSign === "=") {
         return "notAdd";
       }
 
-      if (lastSign.match(signs) && screenValue.length === 0)
+      if (lastSign.match(this.signs) && screenValue.length === 0)
         return "replaceSign";
       if (screenValue.length === 0) return "notAdd";
       if (lastSign === "=" && value !== "=") return "replaceSign";
