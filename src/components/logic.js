@@ -107,6 +107,10 @@ class CalcLogic {
         screenValue.length <= 1
       )
         return;
+
+      if (screenValue.length === 1 && screenValue === "0" && value !== 0) {
+        return "replace";
+      }
       return "addNum";
     }
   }
