@@ -49,6 +49,13 @@ const Calculator = () => {
 
     if (
       Logic.validateSign(value, screenValue, screenHistory, resetScreen) ===
+      "replace"
+    ) {
+      setScreenValue(value);
+    }
+
+    if (
+      Logic.validateSign(value, screenValue, screenHistory, resetScreen) ===
       "addNum"
     ) {
       if (
