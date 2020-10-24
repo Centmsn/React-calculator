@@ -3,6 +3,7 @@
 .calculator {
   width: 25vw;
   height: 60vh;
+  min-height: 400px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -47,8 +48,8 @@
     }
   }
   &__screen-history {
-    min-height: 20px;
-    max-height: 30px;
+    min-height: 30px;
+    max-height: 40px;
     font-size: 0.6rem;
     color: rgb(107, 107, 107);
     border-bottom: 1px solid black;
