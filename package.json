@@ -1,7 +1,11 @@
 {
   "name": "calc",
   "version": "0.1.0",
+<<<<<<< HEAD
   "homepage": "https://github.com/Centmsn/React-calculator",
+=======
+  "homepage": "https://Centmsn.github.io/React-calculator",
+>>>>>>> 6ddb180595ab4d35cdc7a5f8c00dee80b440f632
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -13,6 +17,8 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
